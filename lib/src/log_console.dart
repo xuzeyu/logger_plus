@@ -59,7 +59,7 @@ class _LogConsoleState extends State<LogConsole> {
   final _filterController = TextEditingController();
 
   Level _filterLevel = Level.trace;
-  double _logFontSize = 14;
+  double _logFontSize = 13;
 
   var _currentId = 0;
   bool _scrollListenerEnabled = true;
@@ -181,7 +181,7 @@ class _LogConsoleState extends State<LogConsole> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SizedBox(
-          width: 1600,
+          width: 1500,
           child: ListView.builder(
             shrinkWrap: true,
             controller: _scrollController,
@@ -216,9 +216,11 @@ class _LogConsoleState extends State<LogConsole> {
           const Spacer(),
           IconButton(
             icon: const Icon(Icons.delete_forever),
-            onPressed: () {
+            onPressed: () async {
               setState(() {
-                _logFontSize = 0.0;
+                _outputEventBuffer.clear();
+                _renderedBuffer.clear();
+                _filteredBuffer.clear();
               });
             },
           ),

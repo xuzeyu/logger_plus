@@ -43,7 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
     logger.d("logger debug");
     logger.i("logger info");
     logger.w("logger warning");
-    logger.e("logger error");
+    logger.e(
+        "logger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger errorlogger error");
     logger.f("logger fatal");
   }
 
