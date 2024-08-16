@@ -1,4 +1,4 @@
-part of logger_plus;
+part of '../logger_plus.dart';
 
 class LogConsoleOnShake extends StatefulWidget {
   final Widget child;
@@ -6,14 +6,14 @@ class LogConsoleOnShake extends StatefulWidget {
   final bool debugOnly;
 
   const LogConsoleOnShake({
-    Key? key,
+    super.key,
     required this.child,
     required this.dark,
     this.debugOnly = true,
-  }) : super(key: key);
+  });
 
   @override
-  _LogConsoleOnShakeState createState() => _LogConsoleOnShakeState();
+  State<LogConsoleOnShake> createState() => _LogConsoleOnShakeState();
 }
 
 class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {

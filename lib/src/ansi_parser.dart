@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AnsiParser {
-  static const TEXT = 0, BRACKET = 1, CODE = 2;
+  static const pTEXT = 0, pBRACKET = 1, pCODE = 2;
 
   final bool dark;
 
@@ -13,7 +13,7 @@ class AnsiParser {
 
   void parse(String s) {
     spans = [];
-    var state = TEXT;
+    var state = pTEXT;
     StringBuffer? buffer;
     var text = StringBuffer();
     var code = 0;
@@ -23,9 +23,9 @@ class AnsiParser {
       var c = s[i];
 
       switch (state) {
-        case TEXT:
+        case pTEXT:
           if (c == '\u001b') {
-            state = BRACKET;
+            state = pBRACKET;
             buffer = StringBuffer(c);
             code = 0;
             codes = [];
@@ -34,17 +34,17 @@ class AnsiParser {
           }
           break;
 
-        case BRACKET:
+        case pBRACKET:
           buffer?.write(c);
           if (c == '[') {
-            state = CODE;
+            state = pCODE;
           } else {
-            state = TEXT;
+            state = pTEXT;
             text.write(buffer);
           }
           break;
 
-        case CODE:
+        case pCODE:
           buffer?.write(c);
           var codeUnit = c.codeUnitAt(0);
           if (codeUnit >= 48 && codeUnit <= 57) {
@@ -59,7 +59,7 @@ class AnsiParser {
               spans.add(createSpan(text.toString()));
               text.clear();
             }
-            state = TEXT;
+            state = pTEXT;
             if (c == 'm') {
               codes.add(code);
               handleCodes(codes);
@@ -104,13 +104,15 @@ class AnsiParser {
       case 0:
         return foreground ? Colors.black : Colors.transparent;
       case 12:
-        return dark ? Colors.lightBlue[300] : Colors.indigo[700];
+        return dark ? Colors.blue[300] : Colors.blue[700];
       case 208:
         return dark ? Colors.orange[300] : Colors.orange[700];
       case 196:
         return dark ? Colors.red[300] : Colors.red[700];
       case 199:
         return dark ? Colors.pink[300] : Colors.pink[700];
+      case 244:
+        return dark ? Colors.lightBlue[300] : Colors.lightBlue[700];
     }
     return null;
   }

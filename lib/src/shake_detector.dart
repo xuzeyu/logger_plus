@@ -31,7 +31,7 @@ class ShakeDetector {
 
   /// Starts listening to accerelometer events
   void startListening() {
-    streamSubscription = accelerometerEvents.listen((event) {
+    streamSubscription = accelerometerEventStream().listen((event) {
       var gX = event.x / 9.81;
       var gY = event.y / 9.81;
       var gZ = event.z / 9.81;

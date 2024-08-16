@@ -1,4 +1,4 @@
-part of logger_plus;
+part of '../logger_plus.dart';
 
 ListQueue<OutputEvent> _outputEventBuffer = ListQueue();
 //int _bufferSize = 20;
@@ -8,16 +8,15 @@ class LogConsole extends StatefulWidget {
   final bool dark;
   final bool showCloseButton;
 
-  LogConsole({Key? key, this.dark = false, this.showCloseButton = false})
-      : assert(_initialized, "Please call LogConsole.init() first."),
-        super(key: key);
+  LogConsole({super.key, this.dark = false, this.showCloseButton = false})
+      : assert(_initialized, "Please call LogConsole.init() first.");
 
   static void init({int bufferSize = 20}) {
     if (_initialized) return;
 
     //_bufferSize = bufferSize;
     _initialized = true;
-    Logger.addOutputListener().listen((event) {
+    Logger.addOutputListener((OutputEvent event) {
       if (_outputEventBuffer.length == bufferSize) {
         _outputEventBuffer.removeFirst();
       }
@@ -38,7 +37,7 @@ class LogConsole extends StatefulWidget {
   }
 
   @override
-  _LogConsoleState createState() => _LogConsoleState();
+  State<LogConsole> createState() => _LogConsoleState();
 }
 
 class RenderedEvent {
@@ -59,7 +58,7 @@ class _LogConsoleState extends State<LogConsole> {
   final _scrollController = ScrollController();
   final _filterController = TextEditingController();
 
-  Level _filterLevel = Level.verbose;
+  Level _filterLevel = Level.trace;
   double _logFontSize = 14;
 
   var _currentId = 0;
@@ -164,11 +163,11 @@ class _LogConsoleState extends State<LogConsole> {
             child: FloatingActionButton(
               mini: true,
               clipBehavior: Clip.antiAlias,
+              onPressed: _scrollToBottom,
               child: Icon(
                 Icons.arrow_downward,
                 color: widget.dark ? Colors.white : Colors.lightBlue[900],
               ),
-              onPressed: _scrollToBottom,
             ),
           ),
         ),
@@ -215,6 +214,14 @@ class _LogConsoleState extends State<LogConsole> {
             ),
           ),
           const Spacer(),
+          IconButton(
+            icon: const Icon(Icons.delete_forever),
+            onPressed: () {
+              setState(() {
+                _logFontSize = 0.0;
+              });
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
@@ -265,28 +272,28 @@ class _LogConsoleState extends State<LogConsole> {
             value: _filterLevel,
             items: const [
               DropdownMenuItem(
-                child: Text("VERBOSE"),
-                value: Level.verbose,
+                value: Level.trace,
+                child: Text("Trace"),
               ),
               DropdownMenuItem(
-                child: Text("DEBUG"),
                 value: Level.debug,
+                child: Text("Debug"),
               ),
               DropdownMenuItem(
-                child: Text("INFO"),
                 value: Level.info,
+                child: Text("Info"),
               ),
               DropdownMenuItem(
-                child: Text("WARNING"),
                 value: Level.warning,
+                child: Text("Warning"),
               ),
               DropdownMenuItem(
-                child: Text("ERROR"),
                 value: Level.error,
+                child: Text("Error"),
               ),
               DropdownMenuItem(
-                child: Text("WTF"),
-                value: Level.wtf,
+                value: Level.fatal,
+                child: Text("Fatal"),
               )
             ],
             onChanged: (value) {
@@ -340,8 +347,7 @@ class LogBar extends StatelessWidget {
   final bool dark;
   final Widget child;
 
-  const LogBar({Key? key, required this.dark, required this.child})
-      : super(key: key);
+  const LogBar({super.key, required this.dark, required this.child});
 
   @override
   Widget build(BuildContext context) {

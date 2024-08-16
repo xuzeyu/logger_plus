@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:logger_plus/logger_plus.dart';
 
 void main() {
@@ -38,8 +39,12 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
     logger.e(_counter);
-    logger.wtf("WTF");
-    logger.d("Debug");
+    logger.t("logger trace");
+    logger.d("logger debug");
+    logger.i("logger info");
+    logger.w("logger warning");
+    logger.e("logger error");
+    logger.f("logger fatal");
   }
 
   @override
