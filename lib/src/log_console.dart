@@ -217,6 +217,7 @@ class _LogConsoleState extends State<LogConsole> {
           IconButton(
             icon: const Icon(Icons.delete_forever),
             onPressed: () async {
+              await Logger.defaultOutput().destroy();
               setState(() {
                 _outputEventBuffer.clear();
                 _renderedBuffer.clear();
