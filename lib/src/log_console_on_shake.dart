@@ -4,11 +4,13 @@ class LogConsoleOnShake extends StatefulWidget {
   final Widget child;
   final bool dark;
   final bool debugOnly;
+  final Function(Widget logConsole)? onShare;
 
   const LogConsoleOnShake({
     super.key,
     required this.child,
     required this.dark,
+    this.onShare,
     this.debugOnly = true,
   });
 
@@ -54,14 +56,17 @@ class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {
       showCloseButton: true,
       dark: widget.dark,
     );
-    PageRoute route;
-    if (Platform.isIOS) {
-      route = CupertinoPageRoute(builder: (_) => logConsole);
+    if (widget.onShare != null) {
+      widget.onShare!(logConsole);
     } else {
-      route = MaterialPageRoute(builder: (_) => logConsole);
+      PageRoute route;
+      if (Platform.isIOS) {
+        route = CupertinoPageRoute(builder: (_) => logConsole);
+      } else {
+        route = MaterialPageRoute(builder: (_) => logConsole);
+      }
+      await Navigator.push(context, route);
     }
-
-    await Navigator.push(context, route);
     _open = false;
   }
 
