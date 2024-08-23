@@ -4,6 +4,7 @@ class LogConsoleOnShake extends StatefulWidget {
   final Widget child;
   final bool dark;
   final bool debugOnly;
+  final double? width;
   final Function(Widget logConsole)? onShare;
 
   const LogConsoleOnShake({
@@ -12,6 +13,7 @@ class LogConsoleOnShake extends StatefulWidget {
     required this.dark,
     this.onShare,
     this.debugOnly = true,
+    this.width,
   });
 
   @override
@@ -55,6 +57,7 @@ class _LogConsoleOnShakeState extends State<LogConsoleOnShake> {
     var logConsole = LogConsole(
       showCloseButton: true,
       dark: widget.dark,
+      width: widget.width,
     );
     if (widget.onShare != null) {
       widget.onShare!(logConsole);

@@ -7,8 +7,10 @@ bool _initialized = false;
 class LogConsole extends StatefulWidget {
   final bool dark;
   final bool showCloseButton;
+  final double? width;
 
-  LogConsole({super.key, this.dark = false, this.showCloseButton = false})
+  LogConsole(
+      {super.key, this.dark = false, this.showCloseButton = false, this.width})
       : assert(_initialized, "Please call LogConsole.init() first.");
 
   static void init({int bufferSize = 20}) {
@@ -181,7 +183,7 @@ class _LogConsoleState extends State<LogConsole> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SizedBox(
-          width: 1500,
+          width: widget.width ?? 1500,
           child: ListView.builder(
             shrinkWrap: true,
             controller: _scrollController,
